@@ -8,6 +8,33 @@ var url = "mongodb://localhost:27017/";
 app.get('/', function (req, res) {
     res.sendfile('index.html')
 })
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("quien");
+    dbo.collection("personaje").drop(function(err, delOK) {
+      if (err) throw err;
+      if (delOK) console.log("Collection deleted");
+      db.close();
+    });
+  });
+
+var personaje=[{nombre:"feredico",ruta:"federico.jpg"},{nombre:"rafael",ruta:"rafael.jpg"},{nombre:"diego",ruta:"diego.jpg"},
+    {nombre:"maria",ruta:"maria.jpg"},{nombre:"juan",ruta:"juan.jpg"},{nombre:"sergio",ruta:"sergio.jpg"},{nombre:"santino",ruta:"santino.jpg"},
+    {nombre:"sergio",ruta:"sergio.jpg"}];
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("quien");
+  
+  
+  dbo.collection("personaje").insertMany(personaje, function(err, res) {
+    if (err) throw err;
+    
+  
+    db.close();
+  
+  });
+
+});
 
 //Whenever someone connects this gets executed
 let users = []
