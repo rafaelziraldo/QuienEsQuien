@@ -4,16 +4,24 @@
 <head>
     <title>Quin es quien</title>
 </head>
+
+<body onload="socketear()">Quien es quien
+    <ul id="lista">
+
+    </ul>
+</body>
+
 <script src="/socket.io/socket.io.js"></script>
 
 
 <script>
 
+function socketear(){
     var socket = io();
 
 
     socket.on('esperando', data => {
-        document.writeln('esperando otro jugador')
+        document.body.append('esperando otro jugador')
     })
     socket.on('empieza', data => {
         let lista = document.getElementById('lista')
@@ -22,10 +30,10 @@
             item.innerText = data[dato].nombre
             item.style.color = 'blue'
             item.addEventListener("click", e =>{
-                if (this.style.color == 'blue'){
-                    this.style.color == 'red'
+                if (e.target.style.color == 'blue'){
+                    e.target.style.color = 'red'
                 }else{
-                    this.style.color = 'blue'
+                    e.target.style.color = 'blue'
                 }
             })
             lista.appendChild(item)
@@ -58,7 +66,7 @@
 
 
     })
-    socket.on('error',data=>{
+    socket.on('noTeToca',data=>{
         alert(data)
     })
     socket.on('respuesta',data=>{
@@ -74,20 +82,15 @@
        
     })
     socket.on('pregunta',data=>{
-        var confirm=confirm(data)
-        socket.emit('respuesta',confirm)
+        socket.emit('respuesta',confirm(data))
 
        /*  var label=document.createElement('label');
         label.innerHTML=data;
         document.body.appendChild(label); */
     })
-
+}
 </script>
 
-<body>Quien es quien
-    <ul id="lista">
 
-    </ul>
-</body>
 
 </html>
