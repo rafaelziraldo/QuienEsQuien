@@ -21,14 +21,17 @@
           }
           var input=document.createElement('input');
           input.id='pregunta';
-          document.body.appendChild(input)
+          
           var inputArriesga=document.createElement('input');
           inputArriesga.id='arriesga';
           var botonPregunta=document.createElement('button');
           botonPregunta.id='botonP';
           var botonArriesgaPregunta=document.createElement('button');
           botonPregunta.id='botonAP';
-
+           document.body.appendChild(input)
+           document.body.appendChild(inputArriesga)
+            document.body.appendChild(botonPregunta)
+                document.body.appendChild(botonPregunta)
           
       })
       var botonPre=document.getElementById('botonP');
@@ -37,8 +40,9 @@
         socket.emit('pregunta',pregunta.value)
       })
       var botonPreArr=document.getElementById('botonAP');
-      var arriesga=document.getElementById('arriesga');
+      
       botonPre.addEventListener('click',function(){
+        var arriesga=document.getElementById('arriesga');
         socket.emit('arriesga',arriesga.value)
       })
 
