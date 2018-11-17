@@ -14,10 +14,10 @@ let users = []
 let turno = 0
 io.on('connection', socket => {
     console.log('A user connected')
-    if (users.length == 1) {
+    if (users.length == 0) {
         users.push(socket)
         io.emit('esperando', {})
-    } else if (users.length == 2) {
+    } else if (users.length == 1) {
         users.push(socket)
         MongoClient.connect(url, (err, db) => {
             if (err) throw err;

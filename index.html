@@ -1,54 +1,53 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Quin es quien</title>
-   </head>
-   <script src = "/socket.io/socket.io.js"></script>
 
-   
-   <script>
+<head>
+    <title>Quin es quien</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
 
-      var socket = io();
-      
-     
-      socket.on('esperando', data =>{
-          document.writeln('esperando otro jugador')
-      })
-      socket.on('empieza', data =>{
-          for (dato in data){
-              document.writeln(data[dato].nombre)
-              
-          }
-          var input=document.createElement('input');
-          input.id='pregunta';
-          
-          var inputArriesga=document.createElement('input');
-          inputArriesga.id='arriesga';
-          var botonPregunta=document.createElement('button');
-          botonPregunta.id='botonP';
-          var botonArriesgaPregunta=document.createElement('button');
-          botonPregunta.id='botonAP';
-           document.body.appendChild(input)
-           document.body.appendChild(inputArriesga)
-            document.body.appendChild(botonPregunta)
-                document.body.appendChild(botonPregunta)
-          
-      })
-      var botonPre=document.getElementById('botonP');
-      botonPre.addEventListener('click',function(){
-        var pregunta=document.getElementById('pregunta');
-        socket.emit('pregunta',pregunta.value)
-      })
-      var botonPreArr=document.getElementById('botonAP');
-      
-      botonPre.addEventListener('click',function(){
-        var arriesga=document.getElementById('arriesga');
-        socket.emit('arriesga',arriesga.value)
-      })
 
-     
-   </script>
-   <body>Quin es quien
-      
-   </body>
+<script>
+
+    var socket = io();
+
+
+    socket.on('esperando', data => {
+        document.writeln('esperando otro jugador')
+    })
+    socket.on('empieza', data => {
+        for (dato in data) {
+            document.writeln(data[dato].nombre)
+
+        }
+        var input = document.createElement('input');
+        input.id = 'pregunta';
+
+        var inputArriesga = document.createElement('input');
+        inputArriesga.id = 'arriesga';
+        var botonPregunta = document.createElement('button');
+        botonPregunta.id = 'botonP';
+        var botonArriesgaPregunta = document.createElement('button');
+        botonArriesgaPregunta.id = 'botonAP';
+        document.body.appendChild(input)
+        document.body.appendChild(inputArriesga)
+        document.body.appendChild(botonPregunta)
+        document.body.appendChild(botonArriesgaPregunta)
+        botonPregunta.addEventListener('click', function () {
+            var pregunta = document.getElementById('pregunta');
+            socket.emit('pregunta', pregunta.value)
+        })
+        botonArriesgaPregunta.addEventListener('click', function () {
+            var arriesga = document.getElementById('arriesga');
+            socket.emit('arriesga', arriesga.value)
+        })
+
+    })
+
+</script>
+
+<body>Quin es quien
+
+</body>
+
 </html>
