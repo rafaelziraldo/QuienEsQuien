@@ -19,8 +19,8 @@ io.on('connection', function(socket) {
    }else if(users == 2){
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("mydb");
-            dbo.collection("personaje").findOne({}, function(err, result) {
+            var dbo = db.db("quien");
+            dbo.collection("personaje").find({}).toArray(function(err, result) {
             if (err) throw err;
             
             db.close();

@@ -14,7 +14,7 @@
       })
       socket.on('empieza', data =>{
           for (dato in data){
-              document.writeln(dato)
+              document.writeln(data[dato].nombre)
           }
       })
    </script>
