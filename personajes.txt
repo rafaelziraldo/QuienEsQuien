@@ -1,0 +1,12 @@
+use quien
+db.personaje.insert([
+   {
+       nombre:"fede"
+    },
+   {
+       nombre:"rafa"
+   },
+   {
+       nombre:"diego"
+   }
+])
