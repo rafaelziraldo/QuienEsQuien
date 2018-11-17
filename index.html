@@ -9,8 +9,8 @@
    <script>
 
       var socket = io();
-      var pregunta=document.getElementById('pregunta').value;
-
+      var pregunta=document.getElementById('pregunta');
+      var arriesga=document.getElementById('arriesga');
       socket.on('esperando', data =>{
           document.writeln('esperando otro jugador')
       })
@@ -33,11 +33,11 @@
       })
       var botonPre=document.getElementById(botonP);
       botonPre.addEventListener('click',function(){
-        socket.emit('pregunta',pregunta)
+        socket.emit('pregunta',pregunta.value)
       })
       var botonPreArr=document.getElementById(botonAP);
       botonPre.addEventListener('click',function(){
-        socket.emit('arriesga',pregunta)
+        socket.emit('arriesga',arriesga.value)
       })
 
      
