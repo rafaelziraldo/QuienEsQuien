@@ -16,9 +16,19 @@
         document.writeln('esperando otro jugador')
     })
     socket.on('empieza', data => {
+        let lista = document.getElementById('lista')
         for (dato in data) {
-            document.writeln(data[dato].nombre)
-
+            let item = document.createElement('li')
+            item.innerText = data[dato].nombre
+            item.style.color = 'blue'
+            item.addEventListener("click", e =>{
+                if (this.style.color == 'blue'){
+                    this.style.color == 'red'
+                }else{
+                    this.style.color = 'blue'
+                }
+            })
+            lista.appendChild(item)
         }
         var input = document.createElement('input');
         input.id = 'pregunta';
@@ -49,8 +59,10 @@
 
 </script>
 
-<body>Quin es quien
+<body>Quien es quien
+    <ul id="lista">
 
+    </ul>
 </body>
 
 </html>
