@@ -9,7 +9,7 @@ MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("mydb");
   for(var i=0;i<personajes.length;i++){
-  var myobj = { personaje:  };
+  var myobj=personaje[i];
   dbo.collection("personaje").insertOne(myobj, function(err, res) {
     if (err) throw err;
     
