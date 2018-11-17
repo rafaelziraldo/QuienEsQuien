@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Quin es quien</title>
+   </head>
+   <script src = "/socket.io/socket.io.js"></script>
+
+   
+   <script>
+      var socket = io();
+
+      socket.on('esperando', data =>{
+          document.writeln('esperando otro jugador')
+      })
+      socket.on('empieza', data =>{
+          for (dato in data){
+              document.writeln(dato)
+          }
+      })
+   </script>
+   <body>Quin es quien</body>
+</html>
