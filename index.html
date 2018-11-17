@@ -55,6 +55,31 @@
             socket.emit('arriesga', arriesga.value)
         })
 
+
+
+    })
+    socket.on('error',data=>{
+        alert(data)
+    })
+    socket.on('respuesta',data=>{
+        if(data){
+            var label=document.createElement('label');
+        label.innerHTML='si';
+        document.body.appendChild(label);
+        }else{
+            var label=document.createElement('label');
+        label.innerHTML='no';
+        document.body.appendChild(label);
+        }
+       
+    })
+    socket.on('pregunta',data=>{
+        var confirm=confirm(data)
+        socket.emit('respuesta',confirm)
+
+       /*  var label=document.createElement('label');
+        label.innerHTML=data;
+        document.body.appendChild(label); */
     })
 
 </script>
