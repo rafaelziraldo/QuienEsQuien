@@ -33,10 +33,11 @@ io.on('connection', socket => {
 
     socket.on('pregunta', preg => {
         if (users[turno%users.length] != socket){
-            socket.emit('error', 'no te toca')
+            socket.emit('noTeToca', 'no te toca')
+        }else{
+            turno++
+            socket.broadcast.emit('pregunta', preg)
         }
-        turno++
-        socket.broadcast.emit('pregunta', preg)
     })
 
     socket.on('respuesta', resp => {
@@ -45,10 +46,11 @@ io.on('connection', socket => {
 
     socket.on('gano', () => {
         if (users[turno%users.length] != socket){
-            socket.emit('error', 'no te toca')
+            socket.emit('noTeToca', 'no te toca')
+        }else{
+            turno++
+            socket.broadcast.emit('gano')
         }
-        turno++
-        socket.broadcast.emit('gano')
     })
 
     socket.on('arriesga', arr => {
