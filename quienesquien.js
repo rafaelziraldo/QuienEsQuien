@@ -5,57 +5,67 @@ var MongoClient = require('mongodb').MongoClient;
 
 var url = "mongodb://localhost:27017/";
 
-app.get('/', function(req, res) {
-   res.sendfile('index.html')
+app.get('/', function (req, res) {
+    res.sendfile('index.html')
 })
 
 //Whenever someone connects this gets executed
-let users = 0
-io.on('connection', socket =>{
-   console.log('A user connected')
-   users++
-   if (users == 1){
-       io.emit('esperando', {})
-   }else if(users == 2){
-      MongoClient.connect(url, (err, db) =>{
-         if (err) throw err;
-         var dbo = db.db("quien");
-         dbo.collection("personaje").find({}).toArray((err, result) =>{
-         if (err) throw err
-         
-         db.close()
-         io.emit('empieza', result)
-         });
-      });
-   }
+let users = []
+let turno = 0
+io.on('connection', socket => {
+    console.log('A user connected')
+    if (users.length == 1) {
+        users.push(socket)
+        io.emit('esperando', {})
+    } else if (users.length == 2) {
+        users.push(socket)
+        MongoClient.connect(url, (err, db) => {
+            if (err) throw err;
+            var dbo = db.db("quien");
+            dbo.collection("personaje").find({}).toArray((err, result) => {
+                if (err) throw err
 
-   socket.on('pregunta', preg =>{
-      io.broadcast('pregunta', preg)
-   })
+                db.close()
+                io.emit('empieza', result)
+            });
+        });
+    }
 
-   socket.on('respuesta', resp =>{
-      io.broadcast('respuesta', resp)
-   })
+    socket.on('pregunta', preg => {
+        if (users[turno%users.length] != socket){
+            socket.emit('error', 'no te toca')
+        }
+        turno++
+        socket.broadcast.emit('pregunta', preg)
+    })
 
-   socket.on('gano', () =>{
-      io.broadcast('gano')
-   })
+    socket.on('respuesta', resp => {
+        socket.broadcast.emit('respuesta', resp)
+    })
 
-   socket.on('arriesga', arr =>{
-      io.broadcast('arriesga', arr)
-   })
+    socket.on('gano', () => {
+        if (users[turno%users.length] != socket){
+            socket.emit('error', 'no te toca')
+        }
+        turno++
+        socket.broadcast.emit('gano')
+    })
 
-   socket.on('arriesgaResp', arrR =>{
-      io.broadcast('arriesgaResp', arrR)
-   })
+    socket.on('arriesga', arr => {
+        socket.broadcast.emit('arriesga', arr)
+    })
 
-   //Whenever someone disconnects this piece of code executed
-   socket.on('disconnect', () =>{
-      io.broadcast('gano')
-      console.log('A user disconnected')
-   })
+    socket.on('arriesgaResp', arrR => {
+        socket.broadcast.emit('arriesgaResp', arrR)
+    })
+
+    //Whenever someone disconnects this piece of code executed
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('gano')
+        console.log('A user disconnected')
+    })
 })
 
-http.listen(3000, () =>{
-   console.log('listening on *:3000')
+http.listen(3000, () => {
+    console.log('listening on *:3000')
 })
